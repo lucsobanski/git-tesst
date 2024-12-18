@@ -82,3 +82,24 @@ plt.axis('off')
 plt.gca().set_aspect('equal')
 plt.show()
 
+--
+
+CURL
+
+$headers = @{
+    "Content-Type" = "application/json"
+    "api-key"      = "xxx"
+}
+
+$body = @{
+    messages   = @(@{ role = "user"; content = "Hello, what is Azure OpenAI?" })
+    max_tokens = 50
+} | ConvertTo-Json -Depth 10
+
+$response = Invoke-RestMethod -Uri "https://oai-ipdd-prod-sdc.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-01" `
+    -Method Post `
+    -Headers $headers `
+    -Body $body
+
+$response
+
